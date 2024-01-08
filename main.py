@@ -1,5 +1,8 @@
-import subprocess, platform, re
-from typing import Any, List, Tuple
+""" Responsible for main execution of application
+"""
+import subprocess
+import platform
+from typing import Tuple, List
 from colorama import init, Fore
 
 init()
@@ -11,30 +14,35 @@ MAP = {
 
 
 def get_wifi_networks() -> Tuple[str, str]:
-    os_name = platform.system()
-    return (os_name, subprocess.check_output(MAP[os_name], shell=True, text=True))
+    """returns a tuple of (os_name, network_name)"""
+    _os_name = platform.system()
+    return (_os_name, subprocess.check_output(MAP[_os_name], shell=True, text=True))
 
 
-def process_unix_output(output: str):
+def process_unix_output(_output: str):
+    """processes the result of listing networks in unix based OS"""
     networks = []
     # Access the captured stdout.
-    for x in output.splitlines()[1:]:
+    for x in _output.splitlines()[1:]:
         networks.append(x.split()[1])
     return list(set(networks))
 
 
-def process_windows_output(output: str):
+def process_windows_output(_output: str):
+    """processes the result of listing networks in windows based OS"""
     networks = []
-    for line in output.splitlines():
+    for line in _output.splitlines():
         try:
             if line and line[0] != " ":
                 networks.append(line.split(":")[1].strip())
-        except Exception:
+        except Exception as e:
+            print(e)
             continue
     return networks[1:]
 
 
-def printer(networks):
+def printer(networks: List[str]) -> None:
+    """pretty prints a list of networks"""
     print(f"{Fore.LIGHTMAGENTA_EX}[+] Open Wifi networks in range: \n")
     for ssid in list(set(networks)):
         print(f"{Fore.GREEN}[+] {ssid}")
