@@ -1,0 +1,96 @@
+[
+    {
+        "label": "subprocess,",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "subprocess.",
+        "description": "subprocess.",
+        "detail": "subprocess.",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "List",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Tuple",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "init",
+        "importPath": "colorama",
+        "description": "colorama",
+        "isExtraImport": true,
+        "detail": "colorama",
+        "documentation": {}
+    },
+    {
+        "label": "Fore",
+        "importPath": "colorama",
+        "description": "colorama",
+        "isExtraImport": true,
+        "detail": "colorama",
+        "documentation": {}
+    },
+    {
+        "label": "get_wifi_networks",
+        "kind": 2,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "def get_wifi_networks() -> Tuple[str, str]:\n    os_name = platform.system()\n    return (os_name, subprocess.check_output(MAP[os_name], shell=True, text=True))\ndef process_unix_output(output: str):\n    networks = []\n    # Access the captured stdout.\n    for x in output.splitlines()[1:]:\n        networks.append(x.split()[1])\n    return list(set(networks))\ndef process_windows_output(output: str):",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "process_unix_output",
+        "kind": 2,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "def process_unix_output(output: str):\n    networks = []\n    # Access the captured stdout.\n    for x in output.splitlines()[1:]:\n        networks.append(x.split()[1])\n    return list(set(networks))\ndef process_windows_output(output: str):\n    networks = []\n    for line in output.splitlines():\n        try:",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "process_windows_output",
+        "kind": 2,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "def process_windows_output(output: str):\n    networks = []\n    for line in output.splitlines():\n        try:\n            if line and line[0] != \" \":\n                networks.append(line.split(\":\")[1].strip())\n        except Exception:\n            continue\n    return networks[1:]\ndef printer(networks):",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "printer",
+        "kind": 2,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "def printer(networks):\n    print(f\"{Fore.LIGHTMAGENTA_EX}[+] Open Wifi networks in range: \\n\")\n    for ssid in list(set(networks)):\n        print(f\"{Fore.GREEN}[+] {ssid}\")\nif __name__ == \"__main__\":\n    os_name, output = get_wifi_networks()\n    if os_name == \"Windows\":\n        printer(process_windows_output(output))\n    if os_name == \"Linux\":\n        printer(process_unix_output(output))",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "MAP",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "MAP = {\n    \"Windows\": \"netsh wlan show networks\",\n    \"Linux\": \"nmcli device wifi list\",\n}\ndef get_wifi_networks() -> Tuple[str, str]:\n    os_name = platform.system()\n    return (os_name, subprocess.check_output(MAP[os_name], shell=True, text=True))\ndef process_unix_output(output: str):\n    networks = []\n    # Access the captured stdout.",
+        "detail": "main",
+        "documentation": {}
+    }
+]
